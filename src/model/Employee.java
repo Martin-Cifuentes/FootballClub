@@ -4,6 +4,7 @@ public abstract class Employee implements Calculate{
 	public int id;
 	public double salary;
 	public boolean active;
+	public char participant;
 	/** 
      * this constructor method creates a Employee objet
      * @param name String, name of the Employee
@@ -15,6 +16,7 @@ public abstract class Employee implements Calculate{
 		this.id = id;
 		this.salary = salary;
 		this.active = true;
+		this.participant = 'O';
 	}
 	/** 
      * this method calculates the price of the Employee
@@ -30,6 +32,7 @@ public abstract class Employee implements Calculate{
      * @return the Employee's level
      */
 	public abstract double calculateLevel();
+	//toString
 	public String toString(){
 		String empleo = "El empleado esta contratado";
 		if(!active){
@@ -51,6 +54,9 @@ public abstract class Employee implements Calculate{
 	public boolean getActive(){
 		return this.active;
 	}
+	public char getParticipant(){
+		return this.participant;
+	}
 	//Sets
 	public void setName(String name){
 		this.name = name;
@@ -63,5 +69,8 @@ public abstract class Employee implements Calculate{
 	}
 	public void setActive(boolean active){
 		this.active = active;
+	}
+	public void setParticipant(char participant){
+		this.participant = participant;
 	}
 }

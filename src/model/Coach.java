@@ -15,7 +15,7 @@ public abstract class Coach extends Employee{
 		this.experienceYears = experienceYears;
 	}
 	public String toString(){
-		String x = super.toString() + "__Anos de experiencia: " + experienceYears;
+		String x = super.toString() + "\n" +"__Anos de experiencia: " + experienceYears + "\n";
 		return x;
 	}
 	//Get

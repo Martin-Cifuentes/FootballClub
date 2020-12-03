@@ -44,7 +44,7 @@ public class MainCoach extends Coach{
 	//toString
 	public String toString(){
 		String x = "__________Entrenador Principal__________\n" + super.toString() + 
-					 "__Campeonatos Ganados: " + wonChampions + "\n" + "__Equipos de experiencia: " + teamsNum;
+					 "__Campeonatos Ganados: " + wonChampions + "\n" + "__Equipos de experiencia: " + teamsNum + "\n";
 		return x;
 	}
 	//Gets

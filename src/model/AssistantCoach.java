@@ -30,7 +30,7 @@ public class AssistantCoach extends Coach{
 		if(proPlayer){
 			y = "El coach fue un ugador profesional";
 		}
-		String x = "__________Entrenador Asistente__________\n" + super.toString() + y + "\n" + "__Experticia: " + expertice;
+		String x = "__________Entrenador Asistente__________\n" + super.toString() + "\n" + y + "\n" + "__Experticia: " + expertice + "\n";
 		return x;
 	}
 	//Gets

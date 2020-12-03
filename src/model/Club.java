@@ -1,5 +1,6 @@
 package model;
 import java.util.ArrayList;
+import java.util.Collections;
 public class Club{
 	public String name;
 	public int nit;
@@ -22,6 +23,124 @@ public class Club{
 		this.nit = nit;
 		this.foundationDate = foundationDate;
 	}
+	public void addAligment(String date, int tac, int team){
+		Tactic tactic = null;
+		switch(tac){
+			case 1: tactic = Tactic.POSESION;
+			break;
+			case 2: tactic = Tactic.CONTRAATAQUE;
+			break;
+			case 3: tactic = Tactic.PRESION_ALTA;
+			break;
+			case 4: tactic = Tactic.POR_DEFECTO;
+			break;
+		}
+		if(team == 1){
+			team1.makeAligment(date,tactic);
+		}else if(team == 2){
+			team2.makeAligment(date,tactic);
+		}else{
+			System.out.println("El equipo no existe");
+		}
+	}
+	public void makeFormation(String tName, int back, int center, int front){
+
+	}
+	/** 
+     * this method shows the coaches in the 1st team dressroom
+     * <b>pre:</b> the main must have called him
+     * <b>post:</b> shows dressroomA info
+     */
+	public void showDressRoomsA(){
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 7; j++){
+				if(dressRoomsA[i][j] != null){
+					System.out.print(" (" + dressRoomsA[i][j].getName() + ")");	
+				}else{
+					System.out.print(" (" + "empty" + ")");
+				}
+			}
+			System.out.print("\n");
+		}
+	}
+	/** 
+     * this method shows the coaches in the 2nd team dressroom
+     * <b>pre:</b> the main must have called him
+     * <b>post:</b> shows dressroomB info
+     */
+	public void showDressRoomsB(){
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 6; j++){
+				if(dressRoomsB[i][j] != null){
+					System.out.print(" (" + dressRoomsB[i][j].getName() + ")");	
+				}else{
+					System.out.print(" (" + "empty" + ")");
+				}
+			}
+			System.out.print("\n");
+		}
+	}
+	/** 
+     * this method shows the coaches in the offices
+     * <b>pre:</b> the main must have called him
+     * <b>post:</b> shows offices info
+     */
+	public void showOffices(){
+		for(int i = 0; i < 6; i++){
+			for(int j = 0; j < 6; j++){
+				if(officeSector[i][j] != null){
+					System.out.print(" (" + officeSector[i][j].getName() + ")");	
+				}else{
+					System.out.print(" (" + "empty" + ")");
+				}
+			}
+			System.out.print("\n");
+		}
+	}
+	/** 
+     * this method calls the toString of all the employees and prints it
+     * <b>pre:</b> the main must have called him
+     * <b>post:</b> shows all employee's info
+     */
+	public void getAllEmployees(){
+		String x = "";
+		for(int i = 0; i < workers.size(); i++){
+			x += workers.get(i).toString();
+		}
+		System.out.println(x);
+	}
+	/** 
+     * this method calls the toString of an employee and prints it
+     * <b>pre:</b> the main must have called him
+     * <b>post:</b> shows employee's info
+     * @param pos int, Employee position
+     */
+	public void showEmployee(int pos){
+		String x = "";
+		x = workers.get(pos).toString();
+		System.out.println(x);
+	}
+	/** 
+     * this method calls the toString of a team and prints it
+     * <b>pre:</b> the main must have called him
+     * <b>post:</b> shows team's info
+     * @param pos int, wich team is
+     */
+	public String showTeam(String tName){
+		String x = team1.toString();
+		if(team1 != null && tName.equalsIgnoreCase(team1.getName())){
+			x = team1.toString();
+		}else if(team2 != null && tName.equalsIgnoreCase(team2.getName())){
+			x = team2.toString();
+		}
+		return x;
+	}
+	/** 
+     * this method changes an employee's state from active to inactive
+     * <b>pre:</b> the main must have called him
+     * <b>post:</b> puts the "active" atribute in false
+     * @param pos int, Employee position
+     */
 	public void employeeFired(int pos){
 		boolean teamA = false;
 		boolean teamB = false;
@@ -29,44 +148,77 @@ public class Club{
 		teamA = team1.fireEmployeeOnTeam(workers.get(pos).getName());
 		if(!teamA){
 			teamB = team2.fireEmployeeOnTeam(workers.get(pos).getName());
-		}else if(!teamB){
+		}
+		if(!teamB && !teamA){
 			System.out.println("El empleado se despidio");
 		}else{
 			System.out.println("El empleado se despidio y se elimino de su respectivo equipo");
 		}
 	}
-	/*public void addPlayerToDressRoomsA(int pos){
-		boolean salir = false;
-		for(int i = 0; i < dressRoomsA.length(); i++){
-			for(int j = i % 2; j < dressRoomsA[0].length(); j += 2){
-				if(dressRoomsA[i][j] == null){
-
+	/** 
+     * this method puts employees in teyr respective facilities
+     * <b>pre:</b> the main must have called him
+     * <b>post:</b> puts an employee in a matrix
+     */
+	public void addEmployeesToFacilities(){
+		Collections.shuffle(workers);
+		cleanMatrix();
+		int x = 0;
+		System.out.println("entro al metodo");
+		for(int i = 0; i < 7 && x < workers.size(); i++){
+			for(int j = i % 2; j < 7 && x < workers.size(); j += 2){
+				if(dressRoomsA[i][j] == null && x < workers.size() && workers.get(x) instanceof Player){
+					System.out.println(workers.get(x).getName());
+					while(x < workers.size() && workers.get(x).getParticipant() != 'A'){
+						x++;
+					}
+					if(x < workers.size()){
+						dressRoomsA[i][j] = (Player)workers.get(x);
+					}
 				}
-				if(dressRoomsA[i][j] != null && dressRoomsA[i][j] == workers.get(pos)){
-					System.out.println("El jugador ya estaba agregado");
-					salir = true;
+				x++;
+			}
+		}
+		x = 0;
+		for(int i = 0; i < 7; i++){
+			for(int j = i % 2; j < 6; j += 2){
+				if(dressRoomsB[i][j] == null && x < workers.size() && workers.get(x) instanceof Player){
+					if(workers.get(x).getParticipant() == 'B'){
+						dressRoomsB[i][j] = (Player)workers.get(x);
+					}
 				}
-				if(dressRoomsA[i][j] == null){
-					dressRoomsA[i][j] = workers.get(pos);
-					salir = true;
+				x++;
+			}
+		}
+		x = 0;
+		for(int i = 0; i < 6; i+=2){
+			for(int j = i % 2; j < 6; j += 2){
+				if(officeSector[i][j] == null && x < workers.size() && workers.get(x) instanceof Coach){
+					if(workers.get(x).getParticipant() == 'B' || workers.get(x).getParticipant() == 'A'){
+						officeSector[i][j] = (Coach)workers.get(x);
+					}
 				}
+				x++;
 			}
 		}
 	}
-	public void addPlayerToDressRoomsB(int pos){
+	public void cleanMatrix(){
 		for(int i = 0; i < 7; i++){
-			for(int j = 0; j < 7; j += 2){
-				
+			for(int j = 0; j < 7; j++){
+				dressRoomsA[i][j] = null;
+			}
+		}
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 6; j++){
+				dressRoomsB[i][j] = null;
+			}
+		}
+		for(int i = 0; i < 6; i++){
+			for(int j = 0; j < 6; j++){
+				officeSector[i][j] = null;
 			}
 		}
 	}
-	public void addCoachToOficeSector(int pos){
-		for(int i = 0; i < 7; i++){
-			for(int j = 0; j < 7; j += 2){
-				
-			}
-		}
-	}*/
 	/** 
      * this method calls the interface to calculate the level and price of an employee 
      * <b>pre:</b> the Player must have a position
@@ -92,14 +244,25 @@ public class Club{
      * @param pos int, Player position
      * @param numTeam int, indicate the team
      */
-	public void addPlayerToTeam(int pos, int numTeam){
+	public void addPlayerToTeam(String name, int numTeam){
+		int pos = 0;
+		boolean entroA = false;
+		boolean entroB = false;
+		pos = findEmployee(name);
 		if(workers.get(pos) instanceof Player){
 			if(numTeam == 1){
-				team1.addTeamPlayer((Player)workers.get(pos));
-				//addPlayerToDressRoomsA(pos);
+				entroA = team1.addTeamPlayer((Player)workers.get(pos));
 			}else if(numTeam == 2){
-				team2.addTeamPlayer((Player)workers.get(pos));
-				//addPlayerToDressRoomsA(pos);
+				entroB = team2.addTeamPlayer((Player)workers.get(pos));
+			}
+			if(entroA){
+				System.out.println("entro antes del metodo A");
+				workers.get(pos).setParticipant('A');
+				addEmployeesToFacilities();
+			}else if(entroB){
+				System.out.println("entro antes del metodo B");
+				workers.get(pos).setParticipant('B');
+				addEmployeesToFacilities();
 			}
 		}else{
 			System.out.println("El empleado no es un jugador");
@@ -113,14 +276,25 @@ public class Club{
      * @param pos int, MainCoach position
      * @param numTeam int, indicate the team
      */
-	public void addMainCoachToTeam(int pos, int numTeam){
+	public void addMainCoachToTeam(String name, int numTeam){
+		int pos = 0;
+		boolean entroA = false;
+		boolean entroB = false;
+		pos = findEmployee(name);
 		if(workers.get(pos) instanceof MainCoach){
 			if(numTeam == 1){
-				team1.addTeamMainCoach((MainCoach)workers.get(pos));
+				entroA = team1.addTeamMainCoach((MainCoach)workers.get(pos));
 				//addMainCoachToDressRoomsA(pos);
 			}else if(numTeam == 2){
-				team2.addTeamMainCoach((MainCoach)workers.get(pos));
+				entroB = team2.addTeamMainCoach((MainCoach)workers.get(pos));
 				//addMainCoachToDressRoomsA(pos);
+			}
+			if(entroA){
+				workers.get(pos).setParticipant('A');
+				addEmployeesToFacilities();
+			}else if(entroB){
+				workers.get(pos).setParticipant('B');
+				addEmployeesToFacilities();
 			}
 		}else{
 			System.out.println("El empleado no es un entrenador principal");
@@ -134,14 +308,25 @@ public class Club{
      * @param pos int, AssistantCoach position
      * @param numTeam int, indicate the team
      */
-	public void addAssistantCoachToTeam(int pos, int numTeam){
+	public void addAssistantCoachToTeam(String name, int numTeam){
+		int pos = 0;
+		boolean entroA = false;
+		boolean entroB = false;
+		pos = findEmployee(name);
 		if(workers.get(pos) instanceof AssistantCoach){
 			if(numTeam == 1){
-				team1.addTeamAssistantCoach((AssistantCoach)workers.get(pos));
+				entroA = team1.addTeamAssistantCoach((AssistantCoach)workers.get(pos));
 				//addAssistantCoachToDressRoomsA(pos);
 			}else if(numTeam == 2){
-				team2.addTeamAssistantCoach((AssistantCoach)workers.get(pos));
+				entroB = team2.addTeamAssistantCoach((AssistantCoach)workers.get(pos));
 				//addAssistantCoachToDressRoomsA(pos);
+			}
+			if(entroA){
+				workers.get(pos).setParticipant('A');
+				addEmployeesToFacilities();
+			}else if(entroB){
+				workers.get(pos).setParticipant('B');
+				addEmployeesToFacilities();
 			}
 		}else{
 			System.out.println("El empleado no es un entranador asistente");
@@ -157,10 +342,11 @@ public class Club{
      */
 	public int findTeam(String tName){
 		int x = -1;
-		if(tName == team1.getName()){
+		System.out.println(tName + " / " + team1.getName());
+		if(team1 != null && tName.equalsIgnoreCase(team1.getName())){
 			x = 1;
 		}
-		if(tName == team2.getName()){
+		if(team2 != null && tName.equalsIgnoreCase(team2.getName())){
 			x = 2;
 		}
 		return x;
@@ -193,8 +379,7 @@ public class Club{
 		if(team1 == null){
 			team1 = new Team(name);
 			x = "El primer equipo ha sido creado";
-		}
-		if(team2 == null){
+		}else if(team2 == null){
 			team2 = new Team(name);
 			x = "El segundo equipo ha sido creado";
 		}
@@ -309,6 +494,9 @@ public class Club{
 		}
 	}
 	//Get
+	/*public getDressroomA (){
+		for 
+	}*/
 	public String getName(){
 		return this.name;
 	}

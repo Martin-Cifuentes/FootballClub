@@ -72,9 +72,9 @@ public class Player  extends Employee{
 	}
 
 	public String toString(){
-		String x = "__________Entrenador Asistente__________\n" + super.toString() + 
+		String x = "_________________Jugador________________\n" + super.toString() + "\n" +
 					 "__Numero de la Camiseta: " + tShirt + "\n" + "__Goles: " + goals + "\n"
-					 + "__Puntaje promedio: " + averageScore + "\n" + "__Posicion: " + pos;
+					 + "__Puntaje promedio: " + averageScore + "\n" + "__Posicion: " + pos + "\n";
 		return x;
 	}
 	//Gets
@@ -97,4 +97,5 @@ public class Player  extends Employee{
 	public void setAverageScore(double averageScore){
 		this.averageScore = averageScore;
 	}
+	
 }
