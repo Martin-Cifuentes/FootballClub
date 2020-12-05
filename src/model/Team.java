@@ -21,8 +21,15 @@ public class Team{
 	public void makeAligment(String date, Tactic tactic){
 		this.aligment = new Aligment(date,tactic);
 	}
-	public void editFormation(){
-		
+	public void showForm(){
+		if(aligment != null){
+			aligment.getFormation();	
+		}else{
+			System.out.println("No se ha creado una alineacion aun asi que no se puede mostrar una formacion aun");
+		}
+	}
+	public void editFormation(int back, int middle, int front){
+		aligment.setFormationTo(back,middle,front);
 	}
 	/** 
      * this method puts in null the employee that is been eliminated, only if this is on the team
@@ -38,7 +45,6 @@ public class Team{
 			find = true;
 		}else{
 			for(int i = 0; i < CANT_ASSISTANT_COACH && !find; i++){
-				System.out.println(i);
 				if(aCoaches[i] != null && aCoaches[i].getName().equalsIgnoreCase(name)){
 					aCoaches[i] = null;
 					find = true;

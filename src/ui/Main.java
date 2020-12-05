@@ -59,14 +59,15 @@ public class Main{
 		System.out.println("-(1) Agregar Empleado");
 		System.out.println("-(2) Agregar Equipo");
 		System.out.println("-(3) asignar Empleado a equipo");
-		System.out.println("-(4) Crear Formacion");
+		System.out.println("-(4) Crear alineaacion");
 		System.out.println("-(5) Mostrar informacion de empleado");
 		System.out.println("-(6) Mostrar informacion de equipo");
 		System.out.println("-(7) Mostrar toda la informacion");
 		System.out.println("-(8) Calcular precio y nivel de un Empleado");
 		System.out.println("-(9) Despedir a un empleado");
 		System.out.println("-(10) Mostrar instalaciones");
-		System.out.println("-(11) Mostrar Formacion");
+		System.out.println("-(11) Crear Formacion");
+		System.out.println("-(12) Mostrar Formacion");
 		System.out.println("-(0) Salir");
 		System.out.println("____________________________________________");
 		opcion = sc.nextInt();
@@ -89,8 +90,8 @@ public class Main{
 			break;
 			case 3: addEmployeeToTeam();
 			break;
-			/*case 4: createAligment();//done
-			break;*/
+			case 4: createAligment();//done
+			break;
 			case 5: showEmployeeInfo();//done
 			break;
 			case 6: showTeamInfo();//done
@@ -103,21 +104,29 @@ public class Main{
 			break;
 			case 10: showFacilities();//done
 			break;
-			case 12: createFormation();//done
+			case 11: createFormation();//done
 			break;
-			/*case 12: showFormation();//done
-			break;*/
+			case 12: showFormation();//done
+			break;
 			default: System.out.println("Opcion no valida, intente nuevamente");
 			//menu();
 			break;
 		}
+	}
+	public static void showFormation(){
+		String tName = "";
+		int team = 0;
+		System.out.println("Ingrese el nombre del equipo del que va a mostrar la alineacion");
+		tName = sc.nextLine();
+		team = futClub.findTeam(tName);
+		futClub.showActualFormation(team);
 	}
 	public static void createAligment(){
 		String tName = "";
 		String date = "";
 		int tactic = 0;
 		int team = 0;
-		System.out.println("Ingrese el nombre del equipo al que le va a añadir la alineacion");
+		System.out.println("Ingrese el nombre del equipo al que le va a agregar la alineacion");
 		tName = sc.nextLine();
 		team = futClub.findTeam(tName);
 		System.out.println("Ingrese la fecha de la alineacion");
@@ -137,13 +146,13 @@ public class Main{
 		System.out.println("Inserte un numero para los defensas");
 		a = sc.nextInt();
 		sc.nextLine();
-		if(a < 7){
+		if(a <= 7){
 			System.out.println("Inserte un numero para los centro campistas");
 			System.out.print(a + "-");
 			b = sc.nextInt();
 			sc.nextLine();
 
-			if(b < 7){
+			if(b <= 7){
 				System.out.println("Inserte un numero para los delanteros");
 				System.out.print(a + "-" + b + "-");
 				c = sc.nextInt();
@@ -357,9 +366,6 @@ public class Main{
 		futClub.addPlayerToTeam("kevin",2);
 		futClub.addPlayerToTeam("laura",2);
 		futClub.addPlayerToTeam("nico",2);
-		/*calculate(player1);
-		calculate(coach1);
-		calculate(coach2);*/
 	}
 	/** 
      * this method ask for the name of the Employee to calculate the price and level of the employee 

@@ -23,6 +23,15 @@ public class Club{
 		this.nit = nit;
 		this.foundationDate = foundationDate;
 	}
+	public void showActualFormation(int team){
+		if(team == 1){
+			team1.showForm();
+		}else if(team == 2){
+			team2.showForm();
+		}else{
+			System.out.println("El equipo no existe");
+		}
+	}
 	public void addAligment(String date, int tac, int team){
 		Tactic tactic = null;
 		switch(tac){
@@ -44,7 +53,14 @@ public class Club{
 		}
 	}
 	public void makeFormation(String tName, int back, int center, int front){
-
+		int x = findTeam(tName);
+		if(x == 1){
+			team1.editFormation(back,center,front);
+		}else if(x == 2){
+			team2.editFormation(back,center,front);
+		}else{
+			System.out.println("el eqipo no existe");
+		}
 	}
 	/** 
      * this method shows the coaches in the 1st team dressroom
@@ -164,7 +180,6 @@ public class Club{
 		Collections.shuffle(workers);
 		cleanMatrix();
 		int x = 0;
-		System.out.println("entro al metodo");
 		for(int i = 0; i < 7 && x < workers.size(); i++){
 			for(int j = i % 2; j < 7 && x < workers.size(); j += 2){
 				if(dressRoomsA[i][j] == null && x < workers.size() && workers.get(x) instanceof Player){
@@ -256,11 +271,9 @@ public class Club{
 				entroB = team2.addTeamPlayer((Player)workers.get(pos));
 			}
 			if(entroA){
-				System.out.println("entro antes del metodo A");
 				workers.get(pos).setParticipant('A');
 				addEmployeesToFacilities();
 			}else if(entroB){
-				System.out.println("entro antes del metodo B");
 				workers.get(pos).setParticipant('B');
 				addEmployeesToFacilities();
 			}
@@ -342,7 +355,6 @@ public class Club{
      */
 	public int findTeam(String tName){
 		int x = -1;
-		System.out.println(tName + " / " + team1.getName());
 		if(team1 != null && tName.equalsIgnoreCase(team1.getName())){
 			x = 1;
 		}
@@ -388,10 +400,12 @@ public class Club{
 	public boolean repets(Employee element){
 		boolean salir = false;
 		for(int i = 0; i < workers.size(); i++){
-			if(workers.get(i) != null && element.getName().equalsIgnoreCase(workers.get(i).getName()) &&
-			    element.getId() == workers.get(i).getId() && salir == false){
-				salir = true;
-			}
+			if(workers.get(i) != null){
+				if(element.getName().equalsIgnoreCase(workers.get(i).getName()) ||
+				    element.getId() == workers.get(i).getId() && salir == false){
+					salir = true;
+				}
+			} 
 		}
 		return salir;
 	}
